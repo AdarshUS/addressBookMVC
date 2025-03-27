@@ -1,0 +1,93 @@
+<cfcomponent >
+	<cffunction name="insertUser" access="public" returntype="boolean">
+		<cfargument name="fullName" required="true" type="string">
+		<cfargument name="emailId" required="true" type="string">
+		<cfargument name="userName" required="false" type="string">
+		<cfargument name="password" required="false"  type="string">
+		<cfargument name="profilePhoto" required="true" type="string">
+        <cfdump var="#arguments#">
+		<cfset local.password = hash("#arguments.password#" , "SHA-256" , "UTF-8")>
+        <cftry>
+			<cfquery name="local.verifyEmailUsername">
+			    SELECT count(emailId) as count
+			    FROM Users
+			    WHERE emailId = <cfqueryparam value = "#arguments.emailId#" cfsqltype = "cf_sql_varchar">
+			    OR userName = <cfqueryparam value = "#arguments.userName#" cfsqltype = "cf_sql_varchar">
+			</cfquery>
+			<cfif local.verifyEmailUsername.count GT 0>
+				<cfreturn false>
+			<cfelse>
+                <cfdump var="inside">
+                <cfset local.uploadDirectory = "C:\ColdFusion2021\cfusion\wwwroot\AddressBookMVC\Images\Uploads">
+                <cfdump var="#local.uploadDirectory#">
+                <cffile 
+                    action="upload"
+                    fileField = "profile"
+                    destination = "C:\ColdFusion2021\cfusion\wwwroot\AddressBookMVC\Images\Uploads"
+                    result="local.newPath"
+                >
+                <cfdump var="#local.newPath#">
+				<cfquery name="local.insertData">
+					INSERT INTO Users (
+						fullName,
+						emailId,
+						userName,
+						password,
+						profilePhoto
+							)
+					VALUES (
+						<cfqueryparam value = '#arguments.fullName#' cfsqltype="cf_sql_varchar">,
+						<cfqueryparam value = '#arguments.emailId#' cfsqltype="cf_sql_varchar">,
+						<cfqueryparam value = '#arguments.userName#' cfsqltype="cf_sql_varchar">,
+						<cfqueryparam value = '#local.password#' cfsqltype="cf_sql_varchar">,
+						<cfqueryparam value = '#local.newPath.serverfile#' cfsqltype="cf_sql_varchar">
+						)
+			    </cfquery>
+			</cfif>
+		<cfcatch type="any">
+			<cfreturn false>
+		</cfcatch>
+		</cftry>
+			<cfreturn true>
+	</cffunction>
+
+	<cffunction name="verifyUser" access="public" returntype="struct">
+		<cfargument name="userName" type="string" required="true" >
+		<cfargument name="password" type="string" required="true">
+        <cfset  local.result = {
+            "success":false
+        }>
+		<cfset local.password = hash("#arguments.password#" , "SHA-256" , "UTF-8")>
+		<cfquery name="local.verifyUser">
+			SELECT fullName,
+					emailId,
+					userName,
+					password,
+					profilePhoto,
+					userId
+			FROM Users
+			WHERE userName = <cfqueryparam value = "#arguments.userName#" cfsqltype = "cf_sql_varchar">
+			AND password = <cfqueryparam value = "#local.password#" cfsqltype = "cf_sql_varchar" >
+		</cfquery>
+        <cfif local.verifyUser.recordCount>
+            <cfset local.result.success = true>
+            <cfset session.loginUserId = local.verifyUser.userId>
+            <cfset session.profilePhoto = local.verifyUser.profilePhoto>
+            <cfset session.fullName = local.verifyUser.fullName>
+        </cfif>
+		<cfreturn local.result>
+	</cffunction>
+
+	<cffunction name="verifyEmail" access="public" returntype="query">
+		<cfargument name="email" type="string" required="true" >	
+			<cfquery name = "local.verifyEmail">
+				SELECT fullName,
+				profilePhoto,
+				userName,
+				userId	
+				FROM Users
+				WHERE emailId = <cfqueryparam value = "#arguments.email#" cfsqltype = "cf_sql_varchar">
+			</cfquery>			
+		<cfreturn local.verifyEmail>
+	</cffunction>
+</cfcomponent>
