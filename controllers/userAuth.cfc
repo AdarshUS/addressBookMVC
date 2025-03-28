@@ -15,8 +15,6 @@ component accessors=true{
 
     function signUp(struct rc)
     {
-
-        writeDump(var = "#rc#");
         if (structKeyExists(rc,"submitbutton")) {
 
             rc.user = variables.userService.insertUser(
@@ -25,7 +23,6 @@ component accessors=true{
                 userName = rc.userName,
                 password = rc.password,
                 profilePhoto = rc.profile
-
             );
           /*   if (rc.user.success) {
                 variables.fw.redirect("main.default");
@@ -33,5 +30,11 @@ component accessors=true{
                 rc.error = "Invalid email/password";
             } */
         }
+    }
+
+    function logout(struct rc)
+    {
+        structClear(session);
+        location("index.cfm?action=userAuth.login")
     }
 } 

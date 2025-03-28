@@ -5,7 +5,6 @@
 		<cfargument name="userName" required="false" type="string">
 		<cfargument name="password" required="false"  type="string">
 		<cfargument name="profilePhoto" required="true" type="string">
-        <cfdump var="#arguments#">
 		<cfset local.password = hash("#arguments.password#" , "SHA-256" , "UTF-8")>
         <cftry>
 			<cfquery name="local.verifyEmailUsername">
@@ -17,16 +16,13 @@
 			<cfif local.verifyEmailUsername.count GT 0>
 				<cfreturn false>
 			<cfelse>
-                <cfdump var="inside">
                 <cfset local.uploadDirectory = "C:\ColdFusion2021\cfusion\wwwroot\AddressBookMVC\Images\Uploads">
-                <cfdump var="#local.uploadDirectory#">
                 <cffile 
                     action="upload"
                     fileField = "profile"
                     destination = "C:\ColdFusion2021\cfusion\wwwroot\AddressBookMVC\Images\Uploads"
                     result="local.newPath"
                 >
-                <cfdump var="#local.newPath#">
 				<cfquery name="local.insertData">
 					INSERT INTO Users (
 						fullName,

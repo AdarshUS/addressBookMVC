@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="./style/style.css">
 </head>
 <body>
-         <cfdump var="#rc#">
    <main>
       <div class="loginContainer">
          <div class="loginContainer_left">
@@ -32,7 +31,7 @@
                      <img src="./Images/facebookLogo.png" alt="fb">
                      <a href="./loginSuccess.cfm"><img src="./Images/googleLogo.png" alt="googleLogo" height="48"></a>
                   </div>
-                  <div class="registerContainer">Don't have an account? <a href="./signUp.cfm">Register Here</a></div>
+                  <div class="registerContainer">Don't have an account? <a href="index.cfm?action=userAuth.signUp">Register Here</a></div>
                </div>
             </form>
          </div>

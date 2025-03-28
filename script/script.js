@@ -18,15 +18,15 @@ $('#excel,#excelData').click(function() {
     url: 'components/Excel.cfc?method=getExcel',
     type: 'POST',
     success: function(result) {
-		let jsonObj = JSON.parse(result);          
+		let jsonObj = JSON.parse(result);
 		let a = document.createElement("a");
 		a.download = jsonObj.user;      
 		a.href = jsonObj.fileForDownload;
-		a.click();						              
+		a.click();
     },
-    error: function() {        
+    error: function() {
     }
-	});		           
+	});
 });
 $("#pdf").click(function() { 
 		
@@ -151,11 +151,11 @@ document.getElementById("excelForm").addEventListener("submit", function (event)
 					document.getElementById("fileUploadFeedback").textContent = "File Uploaded Successfully";
 					document.getElementById("downloadIcon").style.display = "block";
 					$("#downloadIcon").click(function() { 
-								let a = document.createElement("a");				
-					a.download = fileName;      
+								let a = document.createElement("a");
+					a.download = fileName;
 					a.href = path;
 					a.click();
-					}); 									            
+					});
 			},
 			error: function (xhr, status, error) {
 					console.error("Error during file upload:", status, error);
@@ -166,23 +166,19 @@ document.getElementById("excelForm").addEventListener("submit", function (event)
 
 function viewData(contactId)
 {
-	
 	$.ajax({
-   	 url: 'components/contactDatabaseOperations.cfc?method=fetchSingleContact',
+   	 url: 'index.cfm?action=main.getContactDetails',
    	 type: 'POST',
-   	 data: {contactId:contactId.value},		
-   	 success: function(result) {			
-		 jsonObj = JSON.parse(result);
-		 console.log(jsonObj);
-		 document.getElementById("cntName").textContent = jsonObj.FIRSTNAME;
-		 document.getElementById("cntGender").textContent = jsonObj.GENDER;
-		 document.getElementById("cntDob").textContent = jsonObj.DATEOFBIRTH;
-		 document.getElementById("cntAddress").textContent = jsonObj.ADDRESS+" "+jsonObj.STREET+" "+jsonObj.DISTRICT+" "+jsonObj.STATE+" "+jsonObj.NATIONALITY;
-		 document.getElementById("cntPincode").textContent = jsonObj.PINCODE;
-		 document.getElementById("cntMail").textContent = jsonObj.EMAILID;
-		 document.getElementById("cntPhone").textContent = jsonObj.PHONENUMBER;
-		 document.getElementById("profile").src = jsonObj.PHOTO;
-		 document.getElementById("cntRole").textContent = jsonObj.ROLES;
+   	 data: {contactId:contactId.value},
+   	 success: function(result) {
+		 document.getElementById("cntName").textContent = result.FIRSTNAME;
+		 document.getElementById("cntGender").textContent = result.GENDER;
+		 document.getElementById("cntDob").textContent = result.DATEOFBIRTH;
+		 document.getElementById("cntAddress").textContent = result.ADDRESS+" "+result.STREET+" "+result.DISTRICT+" "+result.STATE+" "+result.NATIONALITY;
+		 document.getElementById("cntPincode").textContent = result.PINCODE;
+		 document.getElementById("cntMail").textContent = result.EMAILID;
+		 document.getElementById("cntPhone").textContent = result.PHONENUMBER;
+		 document.getElementById("profile").src = "Images/Uploads/"+result.PHOTO;
    	 },
    	 error: function() {		
    	 }
@@ -335,7 +331,6 @@ function validateContact()
 function editContact(contactId)
 {
 	validInput = true;
-	$("#select").val("").trigger("chosen:updated");
 	let titleError = document.getElementById("titleError");
 	let firstNameError = document.getElementById("firstNameError");
 	let lastNameError = document.getElementById("lastNameError");
@@ -350,7 +345,6 @@ function editContact(contactId)
 	let pincodeError = document.getElementById("pincodeError");
 	let emailError = document.getElementById("emailError");
 	let phoneError = document.getElementById("phoneError");
-	let roleError = document.getElementById("RoleError");
 
 	titleError.innerHTML = "";
 	firstNameError.innerHTML = "";
@@ -366,40 +360,28 @@ function editContact(contactId)
 	pincodeError.innerHTML = "";
 	emailError.innerHTML = "";
 	phoneError.innerHTML = "";
-	roleError.innerHTML = "";
-  
 	$.ajax({		
-   	 url: 'components/contactDatabaseOperations.cfc?method=fetchSingleContact',
+   	 url: 'index.cfm?action=main.getContactDetails',
    	 type: 'POST',
    	 data: {contactId:contactId.value},
-   	 success: function(returnValue) {
-		 jsonObj = JSON.parse(returnValue);	
-		 console.log(jsonObj);
-		 var roleArray = jsonObj.ROLESID;
-		 const multiSelect = document.getElementById("select");
-		Array.from(multiSelect.options).forEach(option => {       
-			if(roleArray.includes(parseInt(option.value)))
-			 {				
-            option.selected = true;
-				$("#select").trigger("chosen:updated");	
-			 }			
-		});
-		let validGender = jsonObj.GENDER.toLowerCase();		
-         document.getElementById("title").value = jsonObj.TITLE;
-			document.getElementById("firstName").value = jsonObj.FIRSTNAME;
-			document.getElementById("lastName").value = jsonObj.LASTNAME;
+   	 success: function(result) {
+		console.log(result);
+		let validGender = result.GENDER.toLowerCase();
+         document.getElementById("title").value = result.TITLE;
+			document.getElementById("firstName").value = result.FIRSTNAME;
+			document.getElementById("lastName").value = result.LASTNAME;
 			document.getElementById(validGender).selected = true;
-			document.getElementById("dob").value = jsonObj.DATEOFBIRTH;			
-			document.getElementById("address").value = jsonObj.ADDRESS;
-			document.getElementById("street").value = jsonObj.STREET;
-			document.getElementById("district").value = jsonObj.DISTRICT;
-			document.getElementById("state").value = jsonObj.STATE;
-			document.getElementById("nationality").value = jsonObj.NATIONALITY;
-			document.getElementById("pincode").value = jsonObj.PINCODE;
-			document.getElementById("email").value = jsonObj.EMAILID;
-			document.getElementById("phone").value = jsonObj.PHONENUMBER;
-			document.getElementById("imagePathEdit").value = jsonObj.PHOTO;
-			document.getElementById("distinguishButtons").value = jsonObj.CONTACTID; 
+			document.getElementById("dob").value = result.DATEOFBIRTH;			
+			document.getElementById("address").value = result.ADDRESS;
+			document.getElementById("street").value = result.STREET;
+			document.getElementById("district").value = result.DISTRICT;
+			document.getElementById("state").value = result.STATE;
+			document.getElementById("nationality").value = result.NATIONALITY;
+			document.getElementById("pincode").value = result.PINCODE;
+			document.getElementById("email").value = result.EMAILID;
+			document.getElementById("phone").value = result.PHONENUMBER;
+			document.getElementById("imagePathEdit").value = result.PHOTO;
+			document.getElementById("distinguishButtons").value = result.CONTACTID; 
 			document.getElementById("createContactText").innerHTML = "EDIT CONTACT";
 			document.getElementById("submit").innerHTML = "Save Changes";
    	 },
