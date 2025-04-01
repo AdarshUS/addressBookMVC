@@ -21,8 +21,7 @@
         <div class="profileContainer">
             <img src="./Images/Uploads/#session.profilePhoto#" alt="profilepic" width="70" height="70">
             <div class="profileName">#session.fullName#</div>
-            <button class="createCntBtn" data-bs-toggle="modal" data-bs-target="##exampleModal" type="button" onclick="createContact()">CREATE CONTACT</button>
-            <button class="btn btn-success upload_excelBtn" data-bs-toggle="modal" data-bs-target="##uploadExcelModal" id="uploadBtn">Upload Excel</button>
+            <button class="createCntBtn" data-bs-toggle="modal" data-bs-target="##exampleModal" type="button" onclick="createContact()">CREATE CONTACT</button>            
         </div>
     
     <!--- view modal --->

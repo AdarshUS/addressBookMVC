@@ -13,37 +13,7 @@ $("#logout").click(function() {
             });
         }
 });
-$('#excel,#excelData').click(function() {	
-	 $.ajax({
-    url: 'components/Excel.cfc?method=getExcel',
-    type: 'POST',
-    success: function(result) {
-		let jsonObj = JSON.parse(result);
-		let a = document.createElement("a");
-		a.download = jsonObj.user;      
-		a.href = jsonObj.fileForDownload;
-		a.click();
-    },
-    error: function() {
-    }
-	});
-});
-$("#pdf").click(function() { 
-		
-	$.ajax({
-    url: 'components/pdf.cfc?method=getPdf',
-    type: 'POST',
-    success: function(result) {						
-		let jsonObj = JSON.parse(result);	
-		let a = document.createElement("a");
-		a.download = jsonObj.user;      
-		a.href = jsonObj.fileForDownload;
-		a.click();		          
-    },
-    error: function() {              
-    }
-	});		  
-});
+
 
 function validate()
 {
@@ -116,7 +86,13 @@ function validate()
 		passwordError.textContent = "Password should contain Atleast Six characters";
 		validInputUser = false;
 	}
-	if(password != confirmPassword)
+    if(confirmPassword.trim() === "")
+    {
+        passwordMatchError.textContent = "Password cannot be empty";
+        validInputUser = false;
+    }
+    
+	else if(password != confirmPassword)
 	{
 		passwordMatchError.textContent = "Password does'nt match";
 		validInputUser = false;
@@ -124,45 +100,6 @@ function validate()
   
 	return validInputUser;
 }
-
-document.getElementById("excelForm").addEventListener("submit", function (event) {
-	event.preventDefault(); 
-
-	let excelFileElement = document.getElementById("excelFile");
-	let file = excelFileElement.files[0];
-
-	if (!file) {
-			document.getElementById("excelFileError").textContent = "select a file to Upload";
-	}
-
-	const excelData = new FormData();
-	excelData.append("excelfile", file);
-
-	$.ajax({
-			url: 'components/contactDatabaseOperations.cfc?method=processExcel',
-			type: 'POST',
-			data: excelData, 
-			contentType: false, 
-			processData: false, 
-			success: function (result) {
-					let path = JSON.parse(result);
-					let fileName = "Upload_Result";					
-					console.log("File uploaded successfully:", result);
-					document.getElementById("fileUploadFeedback").textContent = "File Uploaded Successfully";
-					document.getElementById("downloadIcon").style.display = "block";
-					$("#downloadIcon").click(function() { 
-								let a = document.createElement("a");
-					a.download = fileName;
-					a.href = path;
-					a.click();
-					});
-			},
-			error: function (xhr, status, error) {
-					console.error("Error during file upload:", status, error);
-					alert("There was an error processing the file.");
-			}
-	});
-});
 
 function viewData(contactId)
 {
@@ -439,64 +376,4 @@ function refreshSelector()
  $(document).ready(function(){
    $("#select").chosen();
 })
-
-function downloadHeaders()
-{
-	$.ajax({
-    url: 'components/Excel.cfc?method=getExcelHeaders',
-    type: 'POST',	
-    success: function(result) {
-		let jsonObj = JSON.parse(result);
-		let a = document.createElement("a");
-		a.download = jsonObj.user;
-		a.href = jsonObj.fileForDownload;
-		a.click();
-    },
-    error: function() {
-    }
-	});
-}
-
-$("#uploadBtn").click(function() {
-	$(".error").text("");
-	$("#fileUploadFeedback").text("");
-   document.getElementById("downloadIcon").style.display = "none";
-	document.getElementById("excelForm").reset();
-});
-
-function emailValidator(email)
-{
-	let emailError = document.getElementById("emailError");
-	if(email.value.trim() === "")
-	{
-		emailError.innerHTML = "email required"
-		validInput = false;
-	}
-	else{
-		let contactId = document.getElementById("distinguishButtons").value;
-		$.ajax({
-    	url: 'components/contactDatabaseOperations.cfc?method=checkExistingContacts',
-    	type: 'POST',
-		data: {emailId:email.value,contactId:contactId},
-    	success: function(existString) {
-			let exist = existString === "true"?true:false
-			if(exist)
-			{
-				console.log(exist)
-				emailError.innerHTML = "Email Already Exist"
-				validInput = false;
-			}
-			else
-			{
-				validInput = true;
-				emailError.innerHTML = ""
-			}
-			
-    },
-    error: function() {
-    }
-	});
-	}
-	
-}
 

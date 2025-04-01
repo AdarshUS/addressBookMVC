@@ -11,9 +11,9 @@ component accessors=true{
         if (structKeyExists(rc, "submit")) {
             rc.user = variables.userService.verifyUser(rc.username, rc.password);
             if (rc.user.success) {
-                location("index.cfm?action=main");
+                location("index.cfm?action=main",false);
             } else {
-                rc.error = "Invalid email/password";
+                rc.error = "Invalid userName or password";
             }
         }
     }
@@ -40,7 +40,7 @@ component accessors=true{
     function logout(struct rc)
     {
         structClear(session);
-        location("index.cfm?action=userAuth.login")
+        variables.framework.renderData().data("true").type( "text");
     }
 
     function checkUserSession(struct rc)

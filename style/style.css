@@ -87,15 +87,11 @@ input{
   padding: 15px;
 }
 
-.userName,.password{
+.userName input,.password input{
   padding-top: 20px;
   border-bottom: 1px solid #ccc;
   width: 87%;
   margin: 0 25px;
-}
-
-.userName{
-  margin-bottom: 49px;
 }
 
 .bottomContainer .loginBtn{
@@ -107,6 +103,7 @@ input{
   display: block;
   width: 63%;
   text-align: center;
+  cursor: pointer;
 }
 
 .bottomContainer{
@@ -120,16 +117,13 @@ input{
   padding: 8px;
 }
 
-.inputArea:has(input:focus) {
-  border-bottom: 1.5px solid #6984e6;
-}
-
 .error{
   color: #ff0000;
 }
 
 .loginError{
-    margin: 8px;
+    margin: 18px;
+    font-size: 13px;
 }
 
 .exportOption button{
@@ -140,5 +134,9 @@ input{
 .logoutBtn{
     border: none;
     background: none;
+}
+
+#userNameErrorLogin{
+    margin: 20px 18px;
 }
 

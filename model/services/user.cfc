@@ -51,7 +51,8 @@
 		<cfargument name="userName" type="string" required="true" >
 		<cfargument name="password" type="string" required="true">
         <cfset  local.result = {
-            "success":false
+            "success":false,
+            "message":""
         }>
 		<cfset local.password = hash("#arguments.password#" , "SHA-256" , "UTF-8")>
 		<cfquery name="local.verifyUser">
@@ -70,6 +71,9 @@
             <cfset session.loginUserId = local.verifyUser.userId>
             <cfset session.profilePhoto = local.verifyUser.profilePhoto>
             <cfset session.fullName = local.verifyUser.fullName>
+            <cfset local.result.message = "login success">
+        <cfelse>
+            <cfset local.result.message = "Incorrect UserName or Password">
         </cfif>
 		<cfreturn local.result>
 	</cffunction>
