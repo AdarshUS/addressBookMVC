@@ -83,7 +83,7 @@
 				userId	
 				FROM Users
 				WHERE emailId = <cfqueryparam value = "#arguments.email#" cfsqltype = "cf_sql_varchar">
-			</cfquery>			
+			</cfquery>
 		<cfreturn local.verifyEmail>
 	</cffunction>
 </cfcomponent>

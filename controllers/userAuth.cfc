@@ -1,6 +1,11 @@
 component accessors=true{
     property userService;
     
+    function init( fw ) {
+        variables.framework = arguments.fw;
+        return this;
+    }
+
     function login(struct rc) {
 
         if (structKeyExists(rc, "submit")) {
@@ -36,5 +41,13 @@ component accessors=true{
     {
         structClear(session);
         location("index.cfm?action=userAuth.login")
+    }
+
+    function checkUserSession(struct rc)
+    {
+        var publicActions = "userAuth.login,userAuth.signUp";
+        if (!structKeyExists(session, "loginUserId") && !listFindNoCase(publicActions, rc.action)) {
+            variables.framework.redirect("userAuth.login");
+        }
     }
 } 

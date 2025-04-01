@@ -6,10 +6,8 @@ component accessors="true" {
         return this;
     }
 	public void function default( rc ) {
-        writeDump(var = rc)
-     if(structKeyExists(rc,"submit") && structKeyExists(rc,"distinguishButtons"))
+     if(structKeyExists(rc,"submit") && structKeyExists(rc,"distinguishButtons") && rc.distinguishButtons != "")
         {
-            writeDump(var = "edit called"); abort;
             contactService.editContact(
                 contactId = rc.distinguishButtons,
                 title = rc.title,
@@ -28,10 +26,8 @@ component accessors="true" {
                 phoneNumber = rc.phone,
                 hiddenPhoto = rc.imagepathedit
             )
-            
         }
         else if(structKeyExists(rc,"submit")){
-             writeDump(var = "create called"); abort;
             contactService.createContact(
                 title = rc.title,
                 firstName = rc.firstName,
@@ -58,6 +54,12 @@ component accessors="true" {
     function getContactDetails(struct rc)
     {
         local.contactDetails = contactService.fetchSingleContact(rc.contactId);
-        variables.framework.renderData().data(local.contactDetails).type( "json" );
+        variables.framework.renderData().data(local.contactDetails).type( "json");
+    }
+
+    function deleteContact(struct rc)
+    {
+        contactService.deleteContact(rc.contactId);
+        variables.framework.renderData().data("true").type("json")
     }
 }

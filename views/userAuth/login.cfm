@@ -16,14 +16,16 @@
             </div>
          </div>
          <div class="loginContainer_right">
-            <form method="POST">
+            <form method="POST" onsubmit="return validateLogin()">
                <div class="loginContainer_right-heading">LOGIN</div>
                <div class="userName inputArea">
                   <input type="text" id="userName" name="userName" placeholder="Username">
                </div>
+                    <div id="userNameErrorLogin" class="error loginError"></div>
                <div class="password inputArea">
                   <input type="password" name="password" id="password" placeholder="Password">
                </div>
+                    <div id="passwordErrorLogin" class="error loginError"></div>
                <div class="bottomContainer">
                   <button class="loginBtn" id="submit" name="submit">LOGIN</button>
                   <div class="bottomContainerText">Or Sign In Using</div>
@@ -37,5 +39,6 @@
          </div>
       </div>
    </main>
+    <script src="./script/script.js"></script>
 </body>
 </html>

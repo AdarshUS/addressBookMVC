@@ -18,10 +18,10 @@
         </div>
         <div class="headerItem2">
             <cfif structKeyExists(session,"loginUserId")>
-                <a class="headerItem2_log2" href="index.cfm?action=userAuth.logout">
+                <button class="headerItem2_log2 logoutBtn" id="logout">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span>
-                </a>
+                </button>
             <cfelse>
                 <a class="headerItem2_log1" href="index.cfm?action=userAuth.signUp">
                     <i class="fa-solid fa-user"></i>

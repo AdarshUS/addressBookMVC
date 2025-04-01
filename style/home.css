@@ -179,7 +179,9 @@ input,select{
 }
 
 .error{
-  color: red;
+    color: red;
+    font-size: 14px;
+    padding: 6px;
 }
 
 .exportOption button{

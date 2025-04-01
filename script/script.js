@@ -2,7 +2,7 @@ let validInput = true;
 $("#logout").click(function() {
         if (confirm("Are you sure you want to Logout")) {
             $.ajax({
-                url: 'components/logOut.cfc?method=logOutUser',
+                url: 'index.cfm?action=userAuth.logout',
                 type: 'POST',
                 success: function(result) {
                   location.reload();
@@ -47,7 +47,7 @@ $("#pdf").click(function() {
 
 function validate()
 {
-	validInputUser = true;
+	let validInputUser = true;
 	const fullName = document.getElementById("fullName").value;
 	const email = document.getElementById("email").value;
 	const userName = document.getElementById("username").value;
@@ -190,7 +190,7 @@ function deleteContact(contactId)
 	if (confirm("Are you sure you want to delete"))
 	{
 		$.ajax({		
-   	 url: 'components/contactDatabaseOperations.cfc?method=deleteContact',
+   	 url: 'index.cfm?action=main.deleteContact',
    	 type: 'POST',
    	 data: {contactId:contactId.value},
    	 success: function() {			
@@ -204,7 +204,7 @@ function deleteContact(contactId)
 
 function validateContact()
 {	
-	
+    let validInput = true;
 	let title = document.getElementById("title").value;	
 	let firstName = document.getElementById("firstName").value;
 	let lastName = document.getElementById("lastName").value;
@@ -218,7 +218,7 @@ function validateContact()
 	let pincode = document.getElementById("pincode").value;
 	let email = document.getElementById("email").value;
 	let phone = document.getElementById("phone").value;
-	let role = document.getElementById("select").value;
+    let photo = document.getElementById("photo").value;
 
 	let titleError = document.getElementById("titleError");
 	let firstNameError = document.getElementById("firstNameError");
@@ -231,9 +231,10 @@ function validateContact()
 	let districtError = document.getElementById("districtError");
 	let stateError = document.getElementById("stateError");
 	let nationalityError = document.getElementById("nationalityError");
-	let pincodeError = document.getElementById("pincodeError");	
+	let pincodeError = document.getElementById("pincodeError");
+    let emailError = document.getElementById("emailError");
 	let phoneError = document.getElementById("phoneError");
-	let roleError = document.getElementById("RoleError"); 
+	
 
 	titleError.innerHTML = "";
 	firstNameError.innerHTML = "";
@@ -247,15 +248,14 @@ function validateContact()
 	stateError.innerHTML = "";
 	nationalityError.innerHTML = "";
 	pincodeError.innerHTML = "";
-	phoneError.innerHTML = "";
-	roleError.innerHTML = "";
+	phoneError.innerHTML = "";	
 	
 	var CurrentDate = new Date();
 	GivenDate = new Date(dateOfBirth);
 
 	if(title == "notSelect")
 	{		
-		titleError.innerHTML = "Select Any title"		
+		titleError.innerHTML = "Select Any title"
 		validInput = false;
 	}
 	if(firstName.trim() === "")
@@ -320,12 +320,39 @@ function validateContact()
 		phoneError.innerHTML = "phone required"
 		validInput = false;
 	}
-	if(role.trim() === "")
-	{
-		roleError.innerHTML = "select any Role"
-	}
-	     
+
+    if(email.trim() === "")
+    {
+        emailError.innerHTML = "email required"
+        validInput = false;
+    }
+
 	return validInput;
+}
+
+function validateLogin()
+{
+    let isvalid = true;
+    const userName = document.getElementById("userName").value;
+    const password = document.getElementById("password").value;
+
+    let usernameError = document.getElementById("userNameErrorLogin");
+    let passwordError = document.getElementById("passwordErrorLogin");
+    
+    usernameError.innerHTML = "";
+    passwordError.innerHTML = "";
+
+    if(userName.trim() === "")
+    {
+        usernameError.innerHTML = "userName cannot be empty";
+        isvalid = false;
+    }
+    if(password.trim() === "")
+    {
+         passwordError.innerHTML = "password cannot be empty";
+         isvalid = false;
+    }
+    return isvalid;
 }
 
 function editContact(contactId)
@@ -419,15 +446,15 @@ function downloadHeaders()
     url: 'components/Excel.cfc?method=getExcelHeaders',
     type: 'POST',	
     success: function(result) {
-		let jsonObj = JSON.parse(result);          
+		let jsonObj = JSON.parse(result);
 		let a = document.createElement("a");
-		a.download = jsonObj.user;      
+		a.download = jsonObj.user;
 		a.href = jsonObj.fileForDownload;
-		a.click();						              
+		a.click();
     },
-    error: function() {        
+    error: function() {
     }
-	});		           
+	});
 }
 
 $("#uploadBtn").click(function() {
@@ -466,9 +493,9 @@ function emailValidator(email)
 			}
 			
     },
-    error: function() {        
+    error: function() {
     }
-	});		           
+	});
 	}
 	
 }
