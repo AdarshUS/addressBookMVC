@@ -1,105 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
-	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />	  
-	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	  <link rel="stylesheet" href="./style/bootstrap.css">
-	  <link rel="stylesheet" href="./style/home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />	  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./style/bootstrap.css">
+    <link rel="stylesheet" href="./style/home.css">
 </head>
 <body>
     <cfoutput>
-	<main>
-		<div class="exportOption">
-			<a id="pdf" href="##"><img src="./Images/pdf.png" alt="pdf" width="36"></a>
-			<a id="excel"><img src="./Images/excel.png" alt="excel" width="36"></a>
-			<a onclick="printContact()"><img src="./Images/printer.png" alt="printer" width="36"></a>
-		</div>
-		<div class="contact_profileContainer">
-        <div class="profileContainer">
-            <img src="./Images/Uploads/#session.profilePhoto#" alt="profilepic" width="70" height="70">
-            <div class="profileName">#session.fullName#</div>
-            <button class="createCntBtn" data-bs-toggle="modal" data-bs-target="##exampleModal" type="button" onclick="createContact()">CREATE CONTACT</button>            
-        </div>
-    
-    <!--- view modal --->
-    <!--- <cfset AllContacts = Application.contactObj.fetchContacts(userId = session.userid)> --->
-    <div class="contactContainer">
-        <table class="cntTable">
-            <tr>
-                <th></th>
-                <th>NAME</th>
-                <th>EMAIL ID</th>
-                <th>PHONE NUMBER</th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <!--- <cfset ormReload()>
-            <cfset contactsOrm = entityLoad("contactOrm",{_createdBy = #session.userid#,active=1})> --->
-            <cfloop query="rc.contactList">
-                <tr id="#rc.contactList.contactId#">
-                    <td><img src="Images/Uploads/#rc.contactList.photo#" alt="profile" width="70" height="70" class="prof_pic"></td>
-                    <td>#rc.contactList.firstName & " "&rc.contactList.lastName#</td>
-                    <td>#rc.contactList.emailId#</td>
-                    <td>#rc.contactList.phoneNumber#</td>
-                    <td><button class="editBtn" data-bs-toggle="modal" data-bs-target="##exampleModal" value="#rc.contactList.contactId#" onclick="editContact(this)">EDIT</button></td>
-                    <td><button class="deleteBtn" onclick="deleteContact(this)" value="#rc.contactList.contactId#">DELETE</button></td>
-                    <td><button class="viewBtn" data-bs-toggle="modal" data-bs-target="##exampleModal2" value="#rc.contactList.contactId#" onclick="viewData(this)">VIEW</button></td>
-                </tr>
-            </cfloop>
-        </table>
-    </div>
-</div>		
-	</main>
-	<div class="modal fade" id="uploadExcelModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-body">
-								<div class="buttonContainer d-flex justify-content-end gap-2">
-									<button class="btn btn-primary" id="excelData">Template with Data</button>
-									<button class="btn btn-success" onclick="downloadHeaders()">Plain Template</button>
-								</div>
-								<div class="uploadExcelHeader">
-									Upload Excel File
-								</div>
-								<div>
-									<form method="POST" enctype="multipart/form-data" id="excelForm">
-										<label class="uploadExcelLabel">Upload Excel*</label><br>
-										<input type="file" name="excelFile" id="excelFile">
-										<div class="error" id="excelFileError"></div>
-								</div>
-							</div>
-							<div class="modal-foot">
-								<button type="submit" class="submitBtn" name="submitBtn" id="submitBtn">Submit</button>
-								</form>
-								<button type="button" class="closeBtn" data-bs-dismiss="modal">Close</button>
-								<div class="d-flex align-items-center p-3">
-									<div id="fileUploadFeedback" class="text-success"></div><i class="fa-solid fa-download downloadIcon p-1" id="downloadIcon"></i>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-                <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-body">
-								<div class="mainContainer d-flex">
-									<div class="formContainer w-80 d-flex flex-column">
-										<div class="createContactText" >CONTACT DETAILS</div>
-										<div>
-											<div class="cnt_details">
-											<span class="cnt_heading">Name</span>
-											<div class="cnt_detailsItem2">
-												<span>:</span>
-												<span id="cntName" class="cnt_Data"></span>	
-											</div>
+	    <main>
+		    <div class="exportOption">
+		        <a id="pdf" href="##"><img src="./Images/pdf.png" alt="pdf" width="36"></a>
+		        <a id="excel"><img src="./Images/excel.png" alt="excel" width="36"></a>
+		        <a onclick="printContact()"><img src="./Images/printer.png" alt="printer" width="36"></a>
+		    </div>
+		    <div class="contact_profileContainer">
+                <div class="profileContainer">
+                    <img src="./Images/Uploads/#session.profilePhoto#" alt="profilepic" width="70" height="70">
+                    <div class="profileName">#session.fullName#</div>
+                    <button class="createCntBtn" data-bs-toggle="modal" data-bs-target="##exampleModal" type="button" onclick="createContact()">CREATE CONTACT</button>            
+                </div>
+                <div class="contactContainer">
+                    <table class="cntTable">
+                        <tr>
+                            <th></th>
+                            <th>NAME</th>
+                            <th>EMAIL ID</th>
+                            <th>PHONE NUMBER</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <cfloop query="rc.contactList">
+                            <tr id="#rc.contactList.contactId#">
+                                <td><img src="Images/Uploads/#rc.contactList.photo#" alt="profile" width="70" height="70" class="prof_pic"></td>
+                                <td>#rc.contactList.firstName & " "&rc.contactList.lastName#</td>
+                                <td>#rc.contactList.emailId#</td>
+                                <td>#rc.contactList.phoneNumber#</td>
+                                <td><button class="editBtn" data-bs-toggle="modal" data-bs-target="##exampleModal" value="#rc.contactList.contactId#" onclick="editContact(this)">EDIT</button></td>
+                                <td><button class="deleteBtn" onclick="deleteContact(this)" value="#rc.contactList.contactId#">DELETE</button></td>
+                                <td><button class="viewBtn" data-bs-toggle="modal" data-bs-target="##exampleModal2" value="#rc.contactList.contactId#" onclick="viewData(this)">VIEW</button></td>
+                            </tr>
+                        </cfloop>
+                    </table>
+                </div>
+            </div>
+	    </main>
+        <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<div class="mainContainer d-flex">
+							<div class="formContainer w-80 d-flex flex-column">
+								<div class="createContactText" >CONTACT DETAILS</div>
+									<div>
+										<div class="cnt_details">
+										    <span class="cnt_heading">Name</span>
+										    <div class="cnt_detailsItem2">
+										        <span>:</span>
+										        <span id="cntName" class="cnt_Data"></span>
+										    </div>
 										</div>
 										<div class="cnt_details">
-											<span class="cnt_heading">Gender</span>
+										    <span class="cnt_heading">Gender</span>
 											<div class="cnt_detailsItem2">
 												<span>:</span>
 												<span id="cntGender" class="cnt_Data"></span>
@@ -109,35 +75,35 @@
 											<span class="cnt_heading">Date Of Birth</span>
 											<div class="cnt_detailsItem2">
 												<span>:</span>
-												<span id="cntDob" class="cnt_Data"></span>	
+												<span id="cntDob" class="cnt_Data"></span>
 											</div>
 										</div>
 										<div class="cnt_details">
 											<span class="cnt_heading">Address</span>
 											<div class="cnt_detailsItem2">
 												<span>:</span>
-												<span id="cntAddress" class="cnt_Data"></span>	
+												<span id="cntAddress" class="cnt_Data"></span>
 											</div>
 										</div>
 										<div class="cnt_details">
 											<span class="cnt_heading">Pincode</span>
 											<div class="cnt_detailsItem2">
 												<span>:</span>
-												<span id="cntPincode" class="cnt_Data"></span>	
-											</div>										
+												<span id="cntPincode" class="cnt_Data"></span>
+											</div>
 										</div>
 										<div class="cnt_details">
 											<span class="cnt_heading">Email Id</span>
 											<div class="cnt_detailsItem2">
 												<span>:</span>
-												<span id="cntMail" class="cnt_Data"></span>	
+												<span id="cntMail" class="cnt_Data"></span>
 											</div>
 										</div>
 										<div class="cnt_details">
 											<span class="cnt_heading">Phone</span>
 											<div class="cnt_detailsItem2">
 												<span>:</span>
-												<span id="cntPhone" class="cnt_Data"></span>	
+												<span id="cntPhone" class="cnt_Data"></span>
 											</div>
 										</div>
 									</div>
@@ -145,7 +111,7 @@
 									<div class="profileIconContainer d-flex justify-content-center align-items-start">
 										<img src="" alt="profile" width="90" id="profile">
 									</div>
-								</div>	
+								</div>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
@@ -279,7 +245,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="refreshSelector()">Close</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary" id="submit" name="submit">Create</button>
                             </div>
                         </form>
@@ -288,7 +254,7 @@
             </div>
 	</cfoutput>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>    
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>	   
 	<script src="./script/script.js"></script>
 </body>

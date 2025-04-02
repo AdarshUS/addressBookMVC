@@ -23,18 +23,21 @@ function validate()
 	const userName = document.getElementById("username").value;
 	const password = document.getElementById("password").value;
 	const confirmPassword = document.getElementById("confirmPassword").value;
-
+    const profilePhoto = document.getElementById("profile");
+    console.log(profilePhoto.files.length)
 	let nameError = document.getElementById("nameError");
 	let mailError = document.getElementById("mailError");
 	let usernameError = document.getElementById("userError");
 	let passwordError = document.getElementById("passwordError");
 	let passwordMatchError = document.getElementById("passwordMatchError");
+    let profileError = document.getElementById("profileError");
 
 	nameError.textContent = "";
 	mailError.textContent = "";
 	usernameError.textContent = "";
 	passwordError.textContent = "";
 	passwordMatchError.textContent = "";
+    profileError.textContent = "";
 
 	if(fullName.trim() === "")
 	{
@@ -97,6 +100,12 @@ function validate()
 		passwordMatchError.textContent = "Password does'nt match";
 		validInputUser = false;
 	}
+
+    if(profilePhoto.files.length === 0)
+    {
+        profileError.textContent = "select an image";
+        validInputUser = false;
+    }
   
 	return validInputUser;
 }
@@ -197,22 +206,22 @@ function validateContact()
 	}
 	if(firstName.trim() === "")
 	{
-		firstNameError.innerHTML = "firstName required"
+		firstNameError.innerHTML = "FirstName required"
 		validInput = false;
 	}
 	if(lastName.trim() === "")
 	{
-		lastNameError.innerHTML = "lastName required"
+		lastNameError.innerHTML = "LastName required"
 		validInput = false;
 	}
 	if(gender == "notSelect")
 	{
-		genderError.innerHTML = "gender required"
+		genderError.innerHTML = "Gender required"
 		validInput = false;
 	}
 	if(dateOfBirth.trim() === "")
 	{
-		dateOfBirthError.innerHTML = "dateOfBirth required"
+		dateOfBirthError.innerHTML = "DateOfBirth required"
 		validInput = false;
 	}
 	else if(GivenDate > CurrentDate)
@@ -368,12 +377,4 @@ function printContact()
 	window.print();
 }
 
-function refreshSelector()
-{
-	 $("#select").val("").trigger("chosen:updated");
-}
-
- $(document).ready(function(){
-   $("#select").chosen();
-})
 

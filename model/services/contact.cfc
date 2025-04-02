@@ -166,6 +166,7 @@
                     fileField = "photo"
                     destination = "C:\ColdFusion2021\cfusion\wwwroot\AddressBookMVC\Images\Uploads"
                     result="local.newPath"
+                    nameconflict="overwrite"
                 >
                 <cfset local.photo = local.newPath.serverfile>
             <cfelse>

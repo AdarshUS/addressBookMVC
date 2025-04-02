@@ -1,10 +1,14 @@
 <cfcomponent >
-	<cffunction name="insertUser" access="public" returntype="boolean">
+	<cffunction name="insertUser" access="public" returntype="struct">
 		<cfargument name="fullName" required="true" type="string">
 		<cfargument name="emailId" required="true" type="string">
 		<cfargument name="userName" required="false" type="string">
 		<cfargument name="password" required="false"  type="string">
 		<cfargument name="profilePhoto" required="true" type="string">
+        <cfset  local.result = {
+            "success":false,
+            "message":""
+        }>
 		<cfset local.password = hash("#arguments.password#" , "SHA-256" , "UTF-8")>
         <cftry>
 			<cfquery name="local.verifyEmailUsername">
@@ -14,7 +18,7 @@
 			    OR userName = <cfqueryparam value = "#arguments.userName#" cfsqltype = "cf_sql_varchar">
 			</cfquery>
 			<cfif local.verifyEmailUsername.count GT 0>
-				<cfreturn false>
+				<cfset local.result.message = "email or username already Exist">
 			<cfelse>
                 <cfset local.uploadDirectory = "C:\ColdFusion2021\cfusion\wwwroot\AddressBookMVC\Images\Uploads">
                 <cffile 
@@ -22,6 +26,7 @@
                     fileField = "profile"
                     destination = "C:\ColdFusion2021\cfusion\wwwroot\AddressBookMVC\Images\Uploads"
                     result="local.newPath"
+                    nameconflict="overwrite"
                 >
 				<cfquery name="local.insertData">
 					INSERT INTO Users (
@@ -39,12 +44,14 @@
 						<cfqueryparam value = '#local.newPath.serverfile#' cfsqltype="cf_sql_varchar">
 						)
 			    </cfquery>
+                <cfset local.result.success = true>
+                <cfset local.result.message = "successfully registered">
 			</cfif>
 		<cfcatch type="any">
-			<cfreturn false>
+            <cfdump var="#cfcatch#">
 		</cfcatch>
 		</cftry>
-			<cfreturn true>
+            <cfreturn local.result>
 	</cffunction>
 
 	<cffunction name="verifyUser" access="public" returntype="struct">

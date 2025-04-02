@@ -22,18 +22,14 @@ component accessors=true{
     {
         if (structKeyExists(rc,"submitbutton")) {
 
-            rc.user = variables.userService.insertUser(
+            rc.userAdded = variables.userService.insertUser(
                 fullName = rc.fullName,
                 emailId = rc.email,
                 userName = rc.userName,
                 password = rc.password,
                 profilePhoto = rc.profile
             );
-          /*   if (rc.user.success) {
-                variables.fw.redirect("main.default");
-            } else {
-                rc.error = "Invalid email/password";
-            } */
+            rc.signUpResult = rc.userAdded.message;
         }
     }
 
