@@ -36,7 +36,7 @@ component accessors=true{
     function logout(struct rc)
     {
         structClear(session);
-        variables.framework.renderData().data("true").type( "text");
+        variables.framework.renderData().data("true").type("text");
     }
 
     function checkUserSession(struct rc)

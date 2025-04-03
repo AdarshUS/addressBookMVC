@@ -14,8 +14,8 @@
 			<cfquery name="local.verifyEmailUsername">
 			    SELECT count(emailId) as count
 			    FROM Users
-			    WHERE emailId = <cfqueryparam value = "#arguments.emailId#" cfsqltype = "cf_sql_varchar">
-			    OR userName = <cfqueryparam value = "#arguments.userName#" cfsqltype = "cf_sql_varchar">
+			    WHERE emailId = <cfqueryparam value = "#arguments.emailId#" cfsqltype = "varchar">
+			    OR userName = <cfqueryparam value = "#arguments.userName#" cfsqltype = "varchar">
 			</cfquery>
 			<cfif local.verifyEmailUsername.count GT 0>
 				<cfset local.result.message = "email or username already Exist">
@@ -37,11 +37,11 @@
 						profilePhoto
 							)
 					VALUES (
-						<cfqueryparam value = '#arguments.fullName#' cfsqltype="cf_sql_varchar">,
-						<cfqueryparam value = '#arguments.emailId#' cfsqltype="cf_sql_varchar">,
-						<cfqueryparam value = '#arguments.userName#' cfsqltype="cf_sql_varchar">,
-						<cfqueryparam value = '#local.password#' cfsqltype="cf_sql_varchar">,
-						<cfqueryparam value = '#local.newPath.serverfile#' cfsqltype="cf_sql_varchar">
+						<cfqueryparam value = '#arguments.fullName#' cfsqltype="varchar">,
+						<cfqueryparam value = '#arguments.emailId#' cfsqltype="varchar">,
+						<cfqueryparam value = '#arguments.userName#' cfsqltype="varchar">,
+						<cfqueryparam value = '#local.password#' cfsqltype="varchar">,
+						<cfqueryparam value = '#local.newPath.serverfile#' cfsqltype="varchar">
 						)
 			    </cfquery>
                 <cfset local.result.success = true>
@@ -70,8 +70,8 @@
 					profilePhoto,
 					userId
 			FROM Users
-			WHERE userName = <cfqueryparam value = "#arguments.userName#" cfsqltype = "cf_sql_varchar">
-			AND password = <cfqueryparam value = "#local.password#" cfsqltype = "cf_sql_varchar" >
+			WHERE userName = <cfqueryparam value = "#arguments.userName#" cfsqltype = "varchar">
+			AND password = <cfqueryparam value = "#local.password#" cfsqltype = "varchar">
 		</cfquery>
         <cfif local.verifyUser.recordCount>
             <cfset local.result.success = true>
@@ -86,14 +86,14 @@
 	</cffunction>
 
 	<cffunction name="verifyEmail" access="public" returntype="query">
-		<cfargument name="email" type="string" required="true" >	
+		<cfargument name="email" type="string" required="true" >
 			<cfquery name = "local.verifyEmail">
 				SELECT fullName,
 				profilePhoto,
 				userName,
-				userId	
+				userId
 				FROM Users
-				WHERE emailId = <cfqueryparam value = "#arguments.email#" cfsqltype = "cf_sql_varchar">
+				WHERE emailId = <cfqueryparam value = "#arguments.email#" cfsqltype = "varchar">
 			</cfquery>
 		<cfreturn local.verifyEmail>
 	</cffunction>

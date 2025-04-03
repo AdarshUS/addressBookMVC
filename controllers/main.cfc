@@ -8,7 +8,7 @@ component accessors="true" {
 	public void function default( rc ) {
      if(structKeyExists(rc,"submit") && structKeyExists(rc,"distinguishButtons") && rc.distinguishButtons != "")
         {
-            contactService.editContact(
+            local.contactedEdited = contactService.editContact(
                 contactId = rc.distinguishButtons,
                 title = rc.title,
                 firstName = rc.firstName,
@@ -26,9 +26,10 @@ component accessors="true" {
                 phoneNumber = rc.phone,
                 hiddenPhoto = rc.imagepathedit
             )
+            rc.contactMessage = local.contactedEdited.message;
         }
         else if(structKeyExists(rc,"submit")){
-            contactService.createContact(
+            local.userAdded = contactService.addContact(
                 title = rc.title,
                 firstName = rc.firstName,
                 lastName = rc.lastName,
@@ -44,6 +45,7 @@ component accessors="true" {
                 email = email,
                 phone = phone
             )
+            rc.contactMessage = local.userAdded.message;
         }
 	if(structKeyExists(session,"loginUserId"))
     {

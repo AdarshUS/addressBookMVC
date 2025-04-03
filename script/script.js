@@ -355,7 +355,7 @@ function editContact(contactId)
 			document.getElementById("phone").value = result.PHONENUMBER;
 			document.getElementById("imagePathEdit").value = result.PHOTO;
 			document.getElementById("distinguishButtons").value = result.CONTACTID; 
-			document.getElementById("createContactText").innerHTML = "EDIT CONTACT";
+			document.getElementById("addContactText").innerHTML = "EDIT CONTACT";
 			document.getElementById("submit").innerHTML = "Save Changes";
    	 },
    	 error: function() {		
@@ -363,12 +363,12 @@ function editContact(contactId)
       });
 }
 
-function createContact()
+function addContact()
 {
 	validInput = true;
 	$(".error").text("");	
 	$("#select").val("").trigger("chosen:updated");
-	document.getElementById("createContactText").innerHTML = "CREATE CONTACT";
+	document.getElementById("addContactText").innerHTML = "CREATE CONTACT";
 	document.getElementById("form").reset();
 }
 
@@ -377,4 +377,7 @@ function printContact()
 	window.print();
 }
 
+$(document).on("click", function() {
+    $(".contactAddmsg").hide();
+});
 

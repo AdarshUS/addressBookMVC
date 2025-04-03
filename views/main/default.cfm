@@ -13,6 +13,9 @@
     <cfoutput>
 	    <main>
 		    <div class="exportOption">
+                <cfif structKeyExists(rc,"contactMessage")>
+                    <div class="text-success contactAddmsg">#rc.contactMessage#</div>
+                </cfif>
 		        <a id="pdf" href="##"><img src="./Images/pdf.png" alt="pdf" width="36"></a>
 		        <a id="excel"><img src="./Images/excel.png" alt="excel" width="36"></a>
 		        <a onclick="printContact()"><img src="./Images/printer.png" alt="printer" width="36"></a>
@@ -21,7 +24,7 @@
                 <div class="profileContainer">
                     <img src="./Images/Uploads/#session.profilePhoto#" alt="profilepic" width="70" height="70">
                     <div class="profileName">#session.fullName#</div>
-                    <button class="createCntBtn" data-bs-toggle="modal" data-bs-target="##exampleModal" type="button" onclick="createContact()">CREATE CONTACT</button>            
+                    <button class="createCntBtn" data-bs-toggle="modal" data-bs-target="##exampleModal" type="button" onclick="addContact()">CREATE CONTACT</button>            
                 </div>
                 <div class="contactContainer">
                     <table class="cntTable">
@@ -55,7 +58,7 @@
 					<div class="modal-body">
 						<div class="mainContainer d-flex">
 							<div class="formContainer w-80 d-flex flex-column">
-								<div class="createContactText" >CONTACT DETAILS</div>
+								<div class="addContactText" >CONTACT DETAILS</div>
 									<div>
 										<div class="cnt_details">
 										    <span class="cnt_heading">Name</span>
@@ -127,7 +130,7 @@
                             <div class="modal-body">
                                 <div class="mainContainer d-flex">
                                     <div class="formContainer w-80 d-flex flex-column">
-                                        <div class="createContactText" id="createContactText">CREATE CONTACT</div>
+                                        <div class="addContactText" id="addContactText">CREATE CONTACT</div>
                                         <div class="personalCntText">Personal Contact</div>
                                         <table class="personalCntTable">
                                             <tr>
